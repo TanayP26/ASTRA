@@ -1,0 +1,98 @@
+{
+  "normal": {
+    "event_id": "normal_window",
+    "category": "Nominal",
+    "class": "Routine telemetry",
+    "start_timestamp": "2026-09-01T08:00:00Z",
+    "anomaly_score": 0.42,
+    "affected_channels": [],
+    "telemetry_charts": {
+      "channel_41": [{"timestamp":"2026-09-01T08:00:00Z","value":0.10},{"timestamp":"2026-09-01T08:01:00Z","value":0.11},{"timestamp":"2026-09-01T08:02:00Z","value":0.10}],
+      "channel_43": [{"timestamp":"2026-09-01T08:00:00Z","value":0.20},{"timestamp":"2026-09-01T08:01:00Z","value":0.19},{"timestamp":"2026-09-01T08:02:00Z","value":0.20}]
+    },
+    "signature": {
+      "event_id": "normal_window",
+      "start_timestamp": "2026-09-01T08:00:00+00:00",
+      "end_timestamp": "2026-09-01T08:02:00+00:00",
+      "duration_seconds": 120.0,
+      "affected_channels": [],
+      "num_affected_channels": 0,
+      "telemetry_features": {"agg_score_max": 0.42},
+      "context_features": {"tc_count_5m": 0.0, "nearest_tc_diff_sec": 86400.0},
+      "feature_vector": [0.10, 0.10, 0.10, 0.10],
+      "feature_names": ["f1", "f2", "f3", "f4"]
+    }
+  },
+  "rare_first": {
+    "event_id": "rare_operation_01",
+    "category": "Rare Event",
+    "class": "Rare operational pattern",
+    "start_timestamp": "2026-09-02T10:00:00Z",
+    "anomaly_score": 2.20,
+    "affected_channels": ["channel_41", "channel_43"],
+    "telemetry_charts": {
+      "channel_41": [{"timestamp":"2026-09-02T10:00:00Z","value":0.10},{"timestamp":"2026-09-02T10:01:00Z","value":0.42},{"timestamp":"2026-09-02T10:02:00Z","value":0.18}],
+      "channel_43": [{"timestamp":"2026-09-02T10:00:00Z","value":0.20},{"timestamp":"2026-09-02T10:01:00Z","value":0.51},{"timestamp":"2026-09-02T10:02:00Z","value":0.24}]
+    },
+    "signature": {
+      "event_id": "rare_operation_01",
+      "start_timestamp": "2026-09-02T10:00:00+00:00",
+      "end_timestamp": "2026-09-02T10:02:00+00:00",
+      "duration_seconds": 120.0,
+      "affected_channels": ["channel_41", "channel_43"],
+      "num_affected_channels": 2,
+      "telemetry_features": {"agg_score_max": 2.20},
+      "context_features": {"tc_count_5m": 2.0, "nearest_tc_diff_sec": 60.0},
+      "feature_vector": [1.0, 1.0, 1.0, 1.0],
+      "feature_names": ["f1", "f2", "f3", "f4"]
+    }
+  },
+  "rare_repeat": {
+    "event_id": "rare_operation_02",
+    "category": "Rare Event",
+    "class": "Recurring rare operational pattern",
+    "start_timestamp": "2026-09-03T10:00:00Z",
+    "anomaly_score": 2.24,
+    "affected_channels": ["channel_41", "channel_43"],
+    "telemetry_charts": {
+      "channel_41": [{"timestamp":"2026-09-03T10:00:00Z","value":0.11},{"timestamp":"2026-09-03T10:01:00Z","value":0.43},{"timestamp":"2026-09-03T10:02:00Z","value":0.19}],
+      "channel_43": [{"timestamp":"2026-09-03T10:00:00Z","value":0.21},{"timestamp":"2026-09-03T10:01:00Z","value":0.50},{"timestamp":"2026-09-03T10:02:00Z","value":0.25}]
+    },
+    "signature": {
+      "event_id": "rare_operation_02",
+      "start_timestamp": "2026-09-03T10:00:00+00:00",
+      "end_timestamp": "2026-09-03T10:02:00+00:00",
+      "duration_seconds": 120.0,
+      "affected_channels": ["channel_41", "channel_43"],
+      "num_affected_channels": 2,
+      "telemetry_features": {"agg_score_max": 2.24},
+      "context_features": {"tc_count_5m": 2.0, "nearest_tc_diff_sec": 65.0},
+      "feature_vector": [1.02, 0.98, 1.01, 1.0],
+      "feature_names": ["f1", "f2", "f3", "f4"]
+    }
+  },
+  "anomaly": {
+    "event_id": "genuine_anomaly_01",
+    "category": "Anomaly",
+    "class": "Labelled genuine anomaly",
+    "start_timestamp": "2026-09-04T12:00:00Z",
+    "anomaly_score": 4.20,
+    "affected_channels": ["channel_41", "channel_42", "channel_43", "channel_44", "channel_45", "channel_46"],
+    "telemetry_charts": {
+      "channel_41": [{"timestamp":"2026-09-04T12:00:00Z","value":0.10},{"timestamp":"2026-09-04T12:01:00Z","value":0.88},{"timestamp":"2026-09-04T12:02:00Z","value":0.91}],
+      "channel_43": [{"timestamp":"2026-09-04T12:00:00Z","value":0.20},{"timestamp":"2026-09-04T12:01:00Z","value":0.95},{"timestamp":"2026-09-04T12:02:00Z","value":1.02}]
+    },
+    "signature": {
+      "event_id": "genuine_anomaly_01",
+      "start_timestamp": "2026-09-04T12:00:00+00:00",
+      "end_timestamp": "2026-09-04T12:02:00+00:00",
+      "duration_seconds": 120.0,
+      "affected_channels": ["channel_41", "channel_42", "channel_43", "channel_44", "channel_45", "channel_46"],
+      "num_affected_channels": 6,
+      "telemetry_features": {"agg_score_max": 4.20},
+      "context_features": {"tc_count_5m": 0.0, "nearest_tc_diff_sec": 86400.0},
+      "feature_vector": [5.0, 5.0, 5.0, 5.0],
+      "feature_names": ["f1", "f2", "f3", "f4"]
+    }
+  }
+}
