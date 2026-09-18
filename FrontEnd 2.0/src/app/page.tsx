@@ -31,7 +31,7 @@ function getWsBase(): string {
 }
 
 export default function Home() {
-  const [activeNav, setActiveNav] = useState<string>("global");
+  const [activeNav, setActiveNav] = useState<string>("overview");
   const [selectedNoradId, setSelectedNoradId] = useState<number>(25544); // Default to ISS (ZARYA)
   const [spacecraftStates, setSpacecraftStates] = useState<PropagatedSatelliteState[]>([]);
   const [objectDetail, setObjectDetail] = useState<ObjectDetailResponse | null>(null);
@@ -214,6 +214,22 @@ export default function Home() {
     }
   };
 
+  const handleResetDemo = async () => {
+    setIsProcessingAction(true);
+    try {
+      await astraApi.postReset();
+      setCurrentScenario("normal");
+      const [alertData, memData] = await Promise.all([
+        astraApi.getCurrentAlert(),
+        astraApi.getMemory(),
+      ]);
+      setCurrentAlert(alertData);
+      setMemoryBank(memData);
+    } finally {
+      setIsProcessingAction(false);
+    }
+  };
+
   // Satellite target list for Right Briefing Panel dropdown
   const satelliteList = spacecraftStates.length > 0
     ? spacecraftStates.map((s) => ({
@@ -227,7 +243,12 @@ export default function Home() {
         { id: 25544, name: "ISS (ZARYA)", norad: 25544, cospar: "1998-067A", regime: "LEO" },
       ];
 
-  const threatCount = currentAlert && currentAlert.status !== "NOMINAL" ? 1 : 0;
+  const threatCount =
+    currentAlert &&
+    (currentAlert.status === "UNKNOWN_UNUSUAL_EVENT" ||
+      currentAlert.status === "CRITICAL_COMPONENT_ANOMALY")
+      ? 1
+      : 0;
 
   return (
     <div 
@@ -264,6 +285,7 @@ export default function Home() {
           currentScenario={currentScenario}
           onSelectScenario={handleSelectScenario}
           onOperatorFeedback={handleOperatorFeedback}
+          onResetDemo={handleResetDemo}
           isProcessingAction={isProcessingAction}
         />
 
