@@ -32,6 +32,7 @@ from astra.sources import (
 DEMO_SCENARIOS_PATH = Path("artifacts/demo_scenarios.json")
 AUDIT_REPORT_PATH = Path("reports/astra_integrity_audit.md")
 ABLATION_REPORT_PATH = Path("reports/astra_context_ablation.md")
+RESEARCH_METRICS_PATH = Path("configs/research_metrics.json")
 
 # Global Catalog Provider & State Store Instances
 catalog_provider = OrbitCatalogProvider()
@@ -223,9 +224,9 @@ def get_current_alert():
         severity = "INFO"
         explanation = (
             f"ASTRA matched learned pattern '{match.matched_memory_id}' with "
-            f"{match.best_similarity*100:.1f}% similarity. Alarm downgraded/suppressed."
+            f"{match.best_similarity*100:.1f}% similarity to an operator-validated operational pattern."
         )
-        rec = "No operator intervention required (Recognized Operational Pattern)."
+        rec = "Review with mission policy; operator oversight remains in control."
     else:
         if sc_data.get("category") == "Anomaly":
             status = "CRITICAL_COMPONENT_ANOMALY"
@@ -284,32 +285,11 @@ def get_memory():
 
 @app.get("/api/statistics")
 def get_statistics():
-    # Frozen summaries of the two separately reproduced exploratory studies.
-    return {
-        "evaluation_name": "Exploratory Mission-1 Evaluation",
-        "evaluation_caveat": "Not a pristine untouched final benchmark; separate denominators.",
-        "end_to_end": {
-            "labelled_genuine_anomalies": 29,
-            "genuine_anomalies_detected_before_memory": 25,
-            "genuine_anomalies_detected_after_memory": 25,
-            "genuine_anomaly_detection_pct": 86.2,
-            "labelled_rare_event_windows": 36,
-            "rare_event_detector_alarms_before_memory": 5,
-            "rare_event_detector_alarms_after_memory": 4,
-            "rare_event_detector_alarm_reduction_pct": 20.0,
-            "genuine_detector_detections_suppressed_by_memory": 0,
-            "genuine_suppression_denominator": 25,
-            "similarity_threshold": 0.80,
-        },
-        "memory_stage_recurrence": {
-            "evaluation_type": "RETROSPECTIVE LABEL-CONDITIONED MEMORY-STAGE RECURRENCE EVALUATION",
-            "labelled_rare_event_windows": 36,
-            "subsequently_recognized_windows": 27,
-            "review_required_windows": 9,
-            "repeated_review_reduction_pct": 75.0,
-            "similarity_threshold": 0.80,
-        },
-    }
+    """Return version-controlled summaries produced from the reproduced research studies."""
+    if not RESEARCH_METRICS_PATH.exists():
+        raise HTTPException(status_code=503, detail="Research metrics artifact is unavailable.")
+    with open(RESEARCH_METRICS_PATH, encoding="utf-8") as f:
+        return json.load(f)
 
 
 @app.post("/api/feedback")
