@@ -343,8 +343,10 @@ export function RightBriefingPanel({
               </span>
             </div>
             <div>
-              <span className="text-[#668F87]">SIGNAL STATUS:</span>{" "}
-              <span className="text-[#39C98A] font-medium">NOMINAL</span>
+              <span className="text-[#668F87]">EVENT CONTEXT:</span>{" "}
+              <span className="text-[#B8C0BA] font-medium">
+                {currentAlert?.category || "Nominal"}
+              </span>
             </div>
             <div>
               <span className="text-[#668F87]">DETECTOR:</span>{" "}
@@ -375,9 +377,9 @@ export function RightBriefingPanel({
             }`}
           >
             {isKnown
-              ? "KNOWN OPERATIONAL PATTERN MATCH CONFIRMED (Alarm Downgraded)"
+              ? "SIMILAR TO OPERATOR-VALIDATED OPERATIONAL PATTERN"
               : isCritical
-              ? "LABELLED GENUINE ANOMALY (Historical ESA research scenario; Safety Guard Bypassed Memory)"
+              ? "LABELLED GENUINE ANOMALY (Historical ESA research scenario; memory did not suppress this detector event)"
               : currentAlert?.status === "NOMINAL"
               ? "NOMINAL SPACECRAFT TELEMETRY (No Operator Action Required)"
               : "UNKNOWN UNUSUAL EVENT (Operator Review Required)"}
