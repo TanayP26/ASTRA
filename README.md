@@ -34,7 +34,7 @@ It addresses a spacecraft operations problem: **rare but legitimate behavior can
 The repository includes:
 
 - FastAPI backend
-- HTML/CSS/JavaScript operator interface
+- Next.js / React nationals operator interface under `FrontEnd 2.0/` (legacy static interface remains under `app/frontend/`)
 - CelesTrak catalog ingestion with local SGP4 propagation
 - SatNOGS observation integration
 - Anomaly-detection baselines
@@ -210,7 +210,7 @@ The context-ablation report is separate from the two headline studies. ---
 | Telemetry and research | NumPy, Pandas, Polars, PyArrow, DuckDB, scikit-learn, Matplotlib |
 | Orbital propagation | SGP4 |
 | Event memory | SQLite through Python's standard library |
-| Interface | HTML, CSS, JavaScript |
+| Interface | Next.js 15, React 19, TypeScript, Tailwind CSS, Three.js (`FrontEnd 2.0/`); legacy static HTML/CSS/JS interface retained for compatibility |
 | Configuration and HTTP | Pydantic, PyYAML, HTTPX |
 | Development | uv, pytest, Ruff |
 
@@ -270,17 +270,25 @@ cd ASTRA
 uv sync --extra dev
 ```
 
-### Run
+### Run the Nationals UI
+
+Start the FastAPI backend:
 
 ```bash
 uv run uvicorn app.backend.main:app --host 127.0.0.1 --port 8050
 ```
 
-Open:
+In a second terminal:
 
-```text
-http://127.0.0.1:8050
+```bash
+cd "FrontEnd 2.0"
+npm ci
+npm run dev
 ```
+
+Open the Next.js URL shown in the terminal (normally `http://localhost:3000`). The nationals frontend proxies `/api/*` to the FastAPI backend and connects the selected-object WebSocket directly to port 8050.
+
+The FastAPI root still serves the legacy static interface for compatibility.
 
 ### Checks
 
@@ -289,7 +297,7 @@ uv run pytest
 uv run ruff check .
 ```
 
-Research/demo workflows require separately prepared local data and `artifacts/demo_scenarios.json`; a fresh clone does not include these assets. ---
+Historical research experiments require separately prepared local ESA data. The judge/demo workflow itself is reproducible from the version-controlled `configs/demo_scenarios.json` scenario definitions. ---
 
 ## Important Data Requirements
 
