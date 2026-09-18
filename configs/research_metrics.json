@@ -1,0 +1,30 @@
+{
+  "evaluation_name": "Exploratory Mission-1 Evaluation",
+  "evaluation_caveat": "Not a pristine untouched final benchmark; separate denominators.",
+  "provenance": {
+    "end_to_end_script": "scripts/run_memory_experiment.py",
+    "memory_stage_script": "scripts/run_memory_stage_recurrence_experiment.py",
+    "integrity_report": "reports/astra_integrity_audit.md"
+  },
+  "end_to_end": {
+    "labelled_genuine_anomalies": 29,
+    "genuine_anomalies_detected_before_memory": 25,
+    "genuine_anomalies_detected_after_memory": 25,
+    "genuine_anomaly_detection_pct": 86.2,
+    "labelled_rare_event_windows": 36,
+    "rare_event_detector_alarms_before_memory": 5,
+    "rare_event_detector_alarms_after_memory": 4,
+    "rare_event_detector_alarm_reduction_pct": 20.0,
+    "genuine_detector_detections_suppressed_by_memory": 0,
+    "genuine_suppression_denominator": 25,
+    "similarity_threshold": 0.8
+  },
+  "memory_stage_recurrence": {
+    "evaluation_type": "RETROSPECTIVE LABEL-CONDITIONED MEMORY-STAGE RECURRENCE EVALUATION",
+    "labelled_rare_event_windows": 36,
+    "subsequently_recognized_windows": 27,
+    "review_required_windows": 9,
+    "repeated_review_reduction_pct": 75.0,
+    "similarity_threshold": 0.8
+  }
+}
