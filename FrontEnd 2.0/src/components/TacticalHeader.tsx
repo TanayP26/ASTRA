@@ -10,13 +10,11 @@ interface TacticalHeaderProps {
 }
 
 const NAV_ITEMS = [
-  { id: "global", label: "GLOBAL" },
-  { id: "fleet", label: "FLEET" },
-  { id: "spacecraft", label: "SPACECRAFT" },
-  { id: "alerts", label: "ALERTS" },
+  { id: "overview", label: "OVERVIEW" },
+  { id: "global", label: "ORBIT" },
   { id: "operations", label: "OPERATIONS" },
-  { id: "sources", label: "DATA SOURCES" },
   { id: "research", label: "RESEARCH" },
+  { id: "sources", label: "SOURCES" },
 ];
 
 export function TacticalHeader({
@@ -36,7 +34,10 @@ export function TacticalHeader({
     return () => clearInterval(interval);
   }, []);
 
-  const isThreatActive = threatCount > 0 || threatStatus !== "NOMINAL";
+  const isThreatActive =
+    threatCount > 0 ||
+    threatStatus === "UNKNOWN_UNUSUAL_EVENT" ||
+    threatStatus === "CRITICAL_COMPONENT_ANOMALY";
 
   return (
     <header className="h-12 w-full bg-transparent px-4 flex items-center justify-between text-xs z-50 shrink-0 select-none relative">
