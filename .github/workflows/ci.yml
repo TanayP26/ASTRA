@@ -16,10 +16,27 @@ jobs:
           version: "latest"
       - name: Install Python dependencies
         run: uv sync --extra dev
-      - name: Run tests
-        run: uv run pytest
+      - name: Run deterministic test suite
+        run: >
+          uv run pytest
+          -k "not test_orbit_websocket and not test_v1_global_catalog_and_summary and not test_v1_global_states_and_fleet"
       - name: Run Ruff
         run: uv run ruff check .
+
+  public-source-smoke:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+      - name: Install Python dependencies
+        run: uv sync --extra dev
+      - name: Exercise network-dependent CelesTrak paths when the provider is reachable
+        run: >
+          uv run pytest tests/test_backend_api.py
+          -k "test_orbit_websocket or test_v1_global_catalog_and_summary or test_v1_global_states_and_fleet"
 
   frontend:
     runs-on: ubuntu-latest
