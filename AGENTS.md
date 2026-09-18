@@ -10,26 +10,26 @@ ASTRA must be scientifically defensible and reproducible.
 
 ## Current Phase
 
-Phase 1: Research Core.
+SIH 2026 Nationals Hardening.
 
-The current goal is NOT to build the web application.
+The research core is established. The current goal is to harden the demonstrator without weakening research integrity.
 
 Current priorities:
 
-1. Load ESA spacecraft telemetry data safely.
-2. Validate dataset structure.
-3. Create reproducible preprocessing.
-4. Extract labelled telemetry events.
-5. Implement simple anomaly-detection baselines.
-6. Evaluate them using meaningful metrics.
-7. Keep experiments reproducible.
+1. Preserve reproducible ESA Mission-1 research evaluation.
+2. Keep public orbital data, public RF observations, historical research data, and authorized mission telemetry clearly separated.
+3. Make the Adaptive Event Memory workflow easy for judges to understand.
+4. Improve the FrontEnd 2.0 UI/UX without fabricating data.
+5. Keep the nationals demo deterministic and resettable.
+6. Maintain truthful source provenance and operator-in-the-loop language.
+7. Run backend tests, Ruff, and the FrontEnd 2.0 production build before merging.
 
 ## Strict Scope Rules
 
 Do NOT:
 
-- build a frontend
-- build authentication
+- replace the established FrontEnd 2.0 stack without a concrete reason
+- build authentication unless explicitly requested for production hardening
 - create microservices
 - add Docker unless specifically requested
 - add Kubernetes
