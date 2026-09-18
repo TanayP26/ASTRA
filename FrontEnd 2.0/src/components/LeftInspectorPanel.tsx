@@ -22,6 +22,7 @@ interface LeftInspectorPanelProps {
   currentScenario: string;
   onSelectScenario: (scenario: string) => void;
   onOperatorFeedback: (label: "VALID_OPERATION" | "CONFIRMED_ANOMALY") => Promise<any>;
+  onResetDemo: () => Promise<void>;
   isProcessingAction?: boolean;
 }
 
@@ -38,6 +39,7 @@ export function LeftInspectorPanel({
   currentScenario,
   onSelectScenario,
   onOperatorFeedback,
+  onResetDemo,
   isProcessingAction = false,
 }: LeftInspectorPanelProps) {
   const [feedbackFeedback, setFeedbackFeedback] = useState<string | null>(null);
@@ -114,7 +116,7 @@ export function LeftInspectorPanel({
         <div className="border-t border-[#668F87]/20 pt-1.5 flex flex-col gap-1">
           <div className="text-[10px] font-semibold text-[#D3B34A] flex items-center justify-between">
             <span>&gt; CURRENT PROPAGATED STATE (BACKEND SGP4)</span>
-            <span className="text-[8.5px] text-[#39C98A] animate-pulse">● LIVE</span>
+            <span className="text-[8.5px] text-[#39C98A] animate-pulse">● CURRENT PROPAGATION</span>
           </div>
           <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[9.5px]">
             <div className="flex justify-between">
@@ -231,6 +233,49 @@ export function LeftInspectorPanel({
       {/* ========================================================================= */}
       <div className="flex-1 subtle-section-bg p-3 rounded flex flex-col gap-2 min-h-[220px]">
         
+        {/* NATIONALS OVERVIEW: plain-English system story first */}
+        {activeNav === "overview" && (
+          <>
+            <div className="text-[#D3B34A] font-semibold border-b border-[#668F87]/20 pb-1">
+              &gt; ASTRA IN 30 SECONDS
+            </div>
+            <div className="text-[9px] text-[#B8C0BA] leading-relaxed">
+              ASTRA helps an operator answer three questions: where is the spacecraft, is its behaviour unusual,
+              and have we already seen and validated something similar?
+            </div>
+            <div className="grid grid-cols-1 gap-1.5 mt-1">
+              <div className="p-2 rounded bg-[#020706] border border-[#668F87]/25">
+                <div className="text-[#39C98A] font-bold text-[9px]">1. ORBITAL AWARENESS</div>
+                <div className="text-[8.5px] text-[#71817B]">Where is it? CelesTrak elements are propagated locally with SGP4.</div>
+              </div>
+              <div className="p-2 rounded bg-[#020706] border border-[#668F87]/25">
+                <div className="text-[#D3B34A] font-bold text-[9px]">2. SPACECRAFT HEALTH</div>
+                <div className="text-[8.5px] text-[#71817B]">Is it unusual? A transparent 3-sigma detector flags large telemetry deviations.</div>
+              </div>
+              <div className="p-2 rounded bg-[#020706] border border-[#668F87]/25">
+                <div className="text-[#F6D365] font-bold text-[9px]">3. ADAPTIVE EVENT MEMORY</div>
+                <div className="text-[8.5px] text-[#71817B]">Have we seen this before? ASTRA compares the event with operator-validated operational patterns.</div>
+              </div>
+            </div>
+            <div className="mt-1 p-2 rounded border border-[#D3B34A]/25 bg-[#D3B34A]/5">
+              <div className="text-[#D3B34A] font-bold text-[9px] mb-1">DEMO FLOW</div>
+              <div className="text-[8.5px] text-[#B8C0BA] leading-relaxed">
+                Rare event → operator reviews → VALID OPERATION → memory stores the pattern → repeated event can be recognized.
+              </div>
+            </div>
+            <button
+              onClick={() => void onResetDemo()}
+              disabled={isProcessingAction}
+              className="mt-1 py-1.5 rounded border border-[#668F87]/40 bg-[#020706] text-[#B8C0BA] text-[9px] font-bold hover:border-[#D3B34A] hover:text-[#F6D365] transition-colors cursor-pointer"
+            >
+              RESET NATIONALS DEMO — CLEAR EVENT MEMORY
+            </button>
+            <div className="text-[8px] text-[#71817B] leading-snug">
+              Human-in-the-loop: memory provides context; it does not autonomously declare a spacecraft safe.
+            </div>
+          </>
+        )}
+
         {/* TAB 1: GLOBAL ORBITAL PICTURE & DISCOVERY */}
         {activeNav === "global" && (
           <>
@@ -243,13 +288,13 @@ export function LeftInspectorPanel({
                 <span className="text-[#D3B34A] font-semibold">PROPAGATION ENGINE:</span> SGP4 (WGS-72 Numerical Engine on Backend)
               </div>
               <div className="border-b border-[#668F87]/10 pb-1">
-                <span className="text-[#D3B34A] font-semibold">CADENCE:</span> 1 Hz State Propagation (2.0s refresh cycle)
+                <span className="text-[#D3B34A] font-semibold">CADENCE:</span> Full-catalog snapshot updates about every 3s; selected-object WebSocket updates at 1 Hz
               </div>
               <div className="border-b border-[#668F87]/10 pb-1">
                 <span className="text-[#D3B34A] font-semibold">GROUND TRACKS:</span> Instantaneous Azimuth/Elevation to ASTRA Reference Ground Station
               </div>
               <div className="text-[8.5px] text-[#71817B] mt-1 leading-normal">
-                Select any satellite on the 3D Globe Canvas or via the Target Selector on the right to inspect its live orbital elements and trajectory.
+                Select any satellite on the 3D Globe Canvas or via the Target Selector on the right to inspect recent orbital elements and its current SGP4-propagated trajectory.
               </div>
             </div>
           </>
