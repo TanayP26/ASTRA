@@ -29,7 +29,7 @@ from astra.sources import (
 )
 
 # Paths
-DEMO_SCENARIOS_PATH = Path("artifacts/demo_scenarios.json")
+DEMO_SCENARIOS_PATH = Path("configs/demo_scenarios.json")
 AUDIT_REPORT_PATH = Path("reports/astra_integrity_audit.md")
 ABLATION_REPORT_PATH = Path("reports/astra_context_ablation.md")
 RESEARCH_METRICS_PATH = Path("configs/research_metrics.json")
