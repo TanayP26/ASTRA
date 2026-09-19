@@ -49,7 +49,7 @@ export default function Home() {
   const [objectDetail, setObjectDetail] = useState<ObjectDetailResponse | null>(null);
 
   // Operational State
-  const [currentScenario, setCurrentScenario] = useState<string>("normal");
+  const currentScenario = "normal";
   const [currentAlert, setCurrentAlert] = useState<CurrentAlertResponse | null>(null);
   const [memoryBank, setMemoryBank] = useState<MemoryBankResponse | null>(null);
   const [sourcesStatus, setSourcesStatus] = useState<SourcesStatusResponse | null>(null);
@@ -217,25 +217,6 @@ export default function Home() {
     };
   }, [selectedNoradId]);
 
-  // 4. Scenario Switching Action
-  const handleSelectScenario = async (scenarioName: string) => {
-    setIsProcessingAction(true);
-    try {
-      await astraApi.postScenario(scenarioName);
-      setCurrentScenario(scenarioName);
-      const [alertData, memData] = await Promise.all([
-        astraApi.getCurrentAlert(),
-        astraApi.getMemory(),
-      ]);
-      setCurrentAlert(alertData);
-      setMemoryBank(memData);
-    } catch (err) {
-      console.error("Failed to switch scenario:", err);
-    } finally {
-      setIsProcessingAction(false);
-    }
-  };
-
   // 5. Human-in-the-Loop Operator Feedback Action (Strict Async Semantics)
   const handleOperatorFeedback = async (label: "VALID_OPERATION" | "CONFIRMED_ANOMALY") => {
     setIsProcessingAction(true);
@@ -248,22 +229,6 @@ export default function Home() {
       setCurrentAlert(alertData);
       setMemoryBank(memData);
       return response;
-    } finally {
-      setIsProcessingAction(false);
-    }
-  };
-
-  const handleResetDemo = async () => {
-    setIsProcessingAction(true);
-    try {
-      await astraApi.postReset();
-      setCurrentScenario("normal");
-      const [alertData, memData] = await Promise.all([
-        astraApi.getCurrentAlert(),
-        astraApi.getMemory(),
-      ]);
-      setCurrentAlert(alertData);
-      setMemoryBank(memData);
     } finally {
       setIsProcessingAction(false);
     }
@@ -300,7 +265,7 @@ export default function Home() {
         backgroundColor: "#020706",
       }}
     >
-      {/* Top Tactical Header */}
+      {/* Primary navigation */}
       <TacticalHeader
         activeNav={activeNav}
         onSelectNav={setActiveNav}
@@ -308,7 +273,7 @@ export default function Home() {
         threatStatus={currentAlert?.status || "NOMINAL"}
       />
 
-      {/* Main 3-Column Mission Control Workspace */}
+      {/* Main operations workspace */}
       <main className="astra-main flex-1 flex overflow-hidden w-full h-full relative">
         {/* Left Column: Fixed Spacecraft Inspector + Dynamic Nav Tab Panel */}
         <LeftInspectorPanel
@@ -321,14 +286,9 @@ export default function Home() {
           researchStats={researchStats}
           fleetStatus={fleetStatus}
           spacecraftOverview={spacecraftOverview}
-          currentScenario={currentScenario}
-          onSelectScenario={handleSelectScenario}
-          onOperatorFeedback={handleOperatorFeedback}
-          onResetDemo={handleResetDemo}
-          isProcessingAction={isProcessingAction}
         />
 
-        {/* Center Column: 3D Tactical Orbital Globe Canvas */}
+        {/* Center: orbital visualization */}
         <div className="astra-globe flex-1 h-full relative bg-transparent">
           {!isBackendConnected && (
             <div
@@ -353,7 +313,7 @@ export default function Home() {
           />
         </div>
 
-        {/* Right Column: Operational Event Briefing, Target Selector & Reference Ground Station Pass */}
+        {/* Right: object selection, event context and ground contact */}
         <RightBriefingPanel
           selectedNoradId={selectedNoradId}
           onSelectNoradId={setSelectedNoradId}
