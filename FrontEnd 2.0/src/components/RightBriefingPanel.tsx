@@ -307,7 +307,7 @@ export function RightBriefingPanel({
         <div className={`text-xs font-semibold flex items-center justify-between tracking-wide ${titleColor}`}>
           <span>{currentAlert?.status?.replace(/_/g, " ") || "NOMINAL TELEMETRY"}</span>
           <span className="text-[9px] text-[#D3B34A] font-mono font-medium">
-            {currentAlert ? `${currentAlert.unusualness_score.toFixed(2)}σ` : "0.42σ"}
+            {currentAlert ? `${currentAlert.unusualness_score.toFixed(2)}σ` : "--"}
           </span>
         </div>
 
@@ -327,7 +327,7 @@ export function RightBriefingPanel({
                 </span>
               </>
             ) : (
-              "Telemetry operating within baseline nominal 3-sigma tolerance envelope."
+              "No spacecraft-health event data is currently available."
             )}
           </div>
         </div>
@@ -379,7 +379,7 @@ export function RightBriefingPanel({
             {isKnown
               ? "SIMILAR TO OPERATOR-VALIDATED OPERATIONAL PATTERN"
               : isCritical
-              ? "LABELLED GENUINE ANOMALY (Historical ESA research scenario; memory did not suppress this detector event)"
+              ? "LABELLED GENUINE ANOMALY (Historical ESA research event; memory did not suppress this detector event)"
               : currentAlert?.status === "NOMINAL"
               ? "NOMINAL SPACECRAFT TELEMETRY (No Operator Action Required)"
               : "UNKNOWN UNUSUAL EVENT (Operator Review Required)"}
@@ -388,16 +388,17 @@ export function RightBriefingPanel({
 
         {/* Recommendation */}
         <div className="flex flex-col gap-1 border-t border-[#668F87]/15 pt-1.5 text-[10px]">
-          <div className="text-[10px] font-medium text-[#668F87] tracking-wide">&gt; RECOMMENDATION</div>
+          <div className="text-[10px] font-medium text-[#668F87] tracking-wide">&gt; OPERATOR CONTEXT</div>
           <div className="text-[#B8C0BA] text-[9.5px] leading-relaxed">
-            {currentAlert?.recommended_action || "Continue routine telemetry monitoring."}
+            {currentAlert?.recommended_action || "No operator action is currently required."}
           </div>
           <div className="text-[#71817B] text-[8.5px] leading-relaxed">
-            {currentAlert?.explanation || "Telemetry parameters running within nominal bounds."}
+            {currentAlert?.explanation || "Awaiting spacecraft-health event context."}
           </div>
         </div>
 
-        {/* Human in the Loop Action Buttons with truthful async status */}
+        {/* Operator actions appear only when there is an event to review. */}
+        {currentAlert && currentAlert.status !== "NOMINAL" && (
         <div className="pt-2 border-t border-[#668F87]/15 flex items-center gap-2">
           <button
             onClick={() => handleAction("VALID_OPERATION")}
@@ -428,6 +429,7 @@ export function RightBriefingPanel({
             {feedbackSuccess === "ANOMALY CONFIRMED" ? "[✓] CONFIRMED" : "[ ANOMALY ]"}
           </button>
         </div>
+        )}
       </div>
 
       {/* ========================================================================= */}
