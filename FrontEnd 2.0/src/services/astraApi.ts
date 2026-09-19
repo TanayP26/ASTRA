@@ -230,7 +230,7 @@ class AstraApiClient {
     return this.fetchJson<CurrentAlertResponse>("/api/alerts/current");
   }
 
-  // 6. Telemetry Waveforms for Current Scenario
+  // 6. Telemetry Waveforms for Current Research Context
   async getTelemetry() {
     return this.fetchJson<{
       scenario: string;
@@ -251,14 +251,7 @@ class AstraApiClient {
     return this.fetchJson<MemoryBankResponse>("/api/memory");
   }
 
-  // 9. Switch Scenario
-  async postScenario(scenarioName: string) {
-    return this.fetchJson<{ message: string; scenario: string }>(`/api/demo/scenario/${scenarioName}`, {
-      method: "POST",
-    });
-  }
-
-  // 10. Human-in-the-Loop Operator Feedback
+  // Human-in-the-Loop Operator Feedback
   async postFeedback(scenarioName: string, operatorLabel: "VALID_OPERATION" | "CONFIRMED_ANOMALY") {
     return this.fetchJson<any>("/api/feedback", {
       method: "POST",
@@ -266,24 +259,17 @@ class AstraApiClient {
     });
   }
 
-  // 11. Reset Demo & Memory Bank
-  async postReset() {
-    return this.fetchJson<{ message: string; scenario: string }>("/api/demo/reset", {
-      method: "POST",
-    });
-  }
-
-  // 12. Data Sources Provenance Status
+  // Data Sources Provenance Status
   async getSourcesStatus(): Promise<SourcesStatusResponse> {
     return this.fetchJson<SourcesStatusResponse>("/api/v1/sources/status");
   }
 
-  // 13. Research Statistics
+  // Research Statistics
   async getStatistics(): Promise<StatisticsResponse> {
     return this.fetchJson<StatisticsResponse>("/api/statistics");
   }
 
-  // 14. Authorized Fleet Status
+  // Authorized Fleet Status
   async getFleet() {
     return this.fetchJson<{
       authorized_count: number;
@@ -293,7 +279,7 @@ class AstraApiClient {
     }>("/api/v1/fleet");
   }
 
-  // 15. Spacecraft Telemetry Channels
+  // Spacecraft Telemetry Channels
   async getSpacecraftOverview(spacecraftId = "ESA_MISSION_1") {
     return this.fetchJson<any>(`/api/v1/spacecraft/${spacecraftId}/overview`);
   }
