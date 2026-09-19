@@ -43,7 +43,7 @@ function getWsBase(): string {
 }
 
 export default function Home() {
-  const [activeNav, setActiveNav] = useState<string>("overview");
+  const [activeNav, setActiveNav] = useState<string>("global");
   const [selectedNoradId, setSelectedNoradId] = useState<number>(25544); // Default to ISS (ZARYA)
   const [spacecraftStates, setSpacecraftStates] = useState<PropagatedSatelliteState[]>([]);
   const [objectDetail, setObjectDetail] = useState<ObjectDetailResponse | null>(null);
