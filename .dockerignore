@@ -18,7 +18,11 @@ data/interim
 data/processed
 data/external
 data/cache
-FrontEnd 2.0
+app/frontend
+FrontEnd 2.0/node_modules
+FrontEnd 2.0/.next
+FrontEnd 2.0/.env
+FrontEnd 2.0/.env.*
 tests
 scripts
 docs
