@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import {
   ObjectDetailResponse,
   CurrentAlertResponse,
@@ -19,11 +19,6 @@ interface LeftInspectorPanelProps {
   researchStats: StatisticsResponse | null;
   fleetStatus: any;
   spacecraftOverview: any;
-  currentScenario: string;
-  onSelectScenario: (scenario: string) => void;
-  onOperatorFeedback: (label: "VALID_OPERATION" | "CONFIRMED_ANOMALY") => Promise<any>;
-  onResetDemo: () => Promise<void>;
-  isProcessingAction?: boolean;
 }
 
 export function LeftInspectorPanel({
@@ -36,25 +31,7 @@ export function LeftInspectorPanel({
   researchStats,
   fleetStatus,
   spacecraftOverview,
-  currentScenario,
-  onSelectScenario,
-  onOperatorFeedback,
-  onResetDemo,
-  isProcessingAction = false,
 }: LeftInspectorPanelProps) {
-  const [feedbackFeedback, setFeedbackFeedback] = useState<string | null>(null);
-
-  const handleFeedbackClick = async (label: "VALID_OPERATION" | "CONFIRMED_ANOMALY") => {
-    try {
-      await onOperatorFeedback(label);
-      setFeedbackFeedback(label === "VALID_OPERATION" ? "PATTERN LEARNED" : "ANOMALY CONFIRMED");
-      setTimeout(() => setFeedbackFeedback(null), 3000);
-    } catch {
-      setFeedbackFeedback("FEEDBACK FAILED");
-      setTimeout(() => setFeedbackFeedback(null), 3000);
-    }
-  };
-
   const src = objectDetail?.source_values;
   const prop = objectDetail?.derived_propagated_values;
   const satnogs = objectDetail?.satnogs_data;
@@ -233,11 +210,11 @@ export function LeftInspectorPanel({
       {/* ========================================================================= */}
       <div className="flex-1 subtle-section-bg p-3 rounded flex flex-col gap-2 min-h-[220px]">
         
-        {/* NATIONALS OVERVIEW: plain-English system story first */}
+        {/* Product overview */}
         {activeNav === "overview" && (
           <>
             <div className="text-[#D3B34A] font-semibold border-b border-[#668F87]/20 pb-1">
-              &gt; ASTRA IN 30 SECONDS
+              &gt; SYSTEM OVERVIEW
             </div>
             <div className="text-[9px] text-[#B8C0BA] leading-relaxed">
               ASTRA helps an operator answer three questions: where is the spacecraft, is its behaviour unusual,
@@ -257,21 +234,11 @@ export function LeftInspectorPanel({
                 <div className="text-[8.5px] text-[#71817B]">Have we seen this before? ASTRA compares the event with operator-validated operational patterns.</div>
               </div>
             </div>
-            <div className="mt-1 p-2 rounded border border-[#D3B34A]/25 bg-[#D3B34A]/5">
-              <div className="text-[#D3B34A] font-bold text-[9px] mb-1">DEMO FLOW</div>
-              <div className="text-[8.5px] text-[#B8C0BA] leading-relaxed">
-                Rare event → operator reviews → VALID OPERATION → memory stores the pattern → repeated event can be recognized.
+            <div className="mt-1 p-2 rounded border border-[#668F87]/25 bg-[#020706]">
+              <div className="text-[#B8C0BA] font-bold text-[9px] mb-1">OPERATOR-CONTROLLED INTELLIGENCE</div>
+              <div className="text-[8.5px] text-[#71817B] leading-relaxed">
+                Event Memory adds operational context to unusual telemetry. Final interpretation remains with the mission operator.
               </div>
-            </div>
-            <button
-              onClick={() => void onResetDemo()}
-              disabled={isProcessingAction}
-              className="mt-1 py-1.5 rounded border border-[#668F87]/40 bg-[#020706] text-[#B8C0BA] text-[9px] font-bold hover:border-[#D3B34A] hover:text-[#F6D365] transition-colors cursor-pointer"
-            >
-              RESET NATIONALS DEMO — CLEAR EVENT MEMORY
-            </button>
-            <div className="text-[8px] text-[#71817B] leading-snug">
-              Human-in-the-loop: memory provides context; it does not autonomously declare a spacecraft safe.
             </div>
           </>
         )}
@@ -317,7 +284,7 @@ export function LeftInspectorPanel({
               </div>
               <div>INTEGRATION READINESS: <span className="text-[#39C98A] font-semibold">STANDBY FOR MISSION ADAPTER</span></div>
               <div className="border-t border-[#668F87]/10 pt-1 mt-1 text-[8.5px] text-[#71817B] leading-snug">
-                Scientific Integrity Rule: ASTRA maintains truthful boundaries between public orbital elements and authorized mission feeds. Historical research archives are available under the OPERATIONS and RESEARCH tabs.
+                Data boundary: public orbital elements remain separate from authorized mission telemetry. Historical validation material is available under OPERATIONS and RESEARCH.
               </div>
             </div>
           </>
@@ -389,115 +356,66 @@ export function LeftInspectorPanel({
                   <span>STATUS: <span className="text-[#E05262]">GENUINE ANOMALY</span></span>
                   <span>SCORE: 3.820 / 3.000</span>
                 </div>
-                <div className="text-[8px] text-[#B8C0BA]">Labelled genuine anomaly window (CH_41..CH_46). Historical ESA research scenario. Safety guard prevents false suppression.</div>
+                <div className="text-[8px] text-[#B8C0BA]">Labelled genuine anomaly window (CH_41..CH_46). Historical ESA research event. The safety guard prevents false suppression.</div>
               </div>
             </div>
           </>
         )}
 
-        {/* TAB 5: OPERATIONS & ADAPTIVE EVENT MEMORY EVALUATION */}
+        {/* TAB 5: OPERATIONS & ADAPTIVE EVENT MEMORY */}
         {activeNav === "operations" && (
           <>
             <div className="text-[#D3B34A] font-semibold border-b border-[#668F87]/20 pb-1">
-              &gt; ESA MISSION-1 ADAPTIVE EVENT MEMORY PIPELINE
+              &gt; ADAPTIVE EVENT MEMORY
             </div>
+
             <div className="text-[8.5px] text-[#39C98A] border-b border-[#668F87]/10 pb-1 flex items-center justify-between">
-              <span>1 UNUSUAL EVENT</span>
+              <span>UNUSUAL EVENT</span>
               <span>→</span>
-              <span>2 SIGNATURE</span>
+              <span>CONTEXT</span>
               <span>→</span>
-              <span>3 MEMORY MATCH</span>
+              <span>MEMORY MATCH</span>
+              <span>→</span>
+              <span>OPERATOR REVIEW</span>
             </div>
 
-            <div className="flex flex-col gap-1.5 text-[9.5px] text-slate-300 mt-0.5">
-              <div className="text-[#D3B34A] font-semibold">SELECT EVALUATION TEST SCENARIO:</div>
-              <div className="grid grid-cols-2 gap-1 text-[8.5px]">
-                <button
-                  onClick={() => onSelectScenario("normal")}
-                  disabled={isProcessingAction}
-                  className={`p-1 rounded font-bold transition-colors cursor-pointer border ${
-                    currentScenario === "normal"
-                      ? "bg-[#39C98A]/20 border-[#39C98A] text-[#39C98A]"
-                      : "bg-[#020706] border-[#668F87]/30 text-[#71817B] hover:border-[#D3B34A]"
-                  }`}
-                >
-                  1. NOMINAL TELEMETRY
-                </button>
-                <button
-                  onClick={() => onSelectScenario("rare_first")}
-                  disabled={isProcessingAction}
-                  className={`p-1 rounded font-bold transition-colors cursor-pointer border ${
-                    currentScenario === "rare_first"
-                      ? "bg-[#D3B34A]/20 border-[#D3B34A] text-[#D3B34A]"
-                      : "bg-[#020706] border-[#668F87]/30 text-[#71817B] hover:border-[#D3B34A]"
-                  }`}
-                >
-                  2. RARE EVENT (1ST)
-                </button>
-                <button
-                  onClick={() => onSelectScenario("rare_repeat")}
-                  disabled={isProcessingAction}
-                  className={`p-1 rounded font-bold transition-colors cursor-pointer border ${
-                    currentScenario === "rare_repeat"
-                      ? "bg-[#D3B34A]/20 border-[#D3B34A] text-[#D3B34A]"
-                      : "bg-[#020706] border-[#668F87]/30 text-[#71817B] hover:border-[#D3B34A]"
-                  }`}
-                >
-                  3. RARE EVENT (REPEAT)
-                </button>
-                <button
-                  onClick={() => onSelectScenario("anomaly")}
-                  disabled={isProcessingAction}
-                  className={`p-1 rounded font-bold transition-colors cursor-pointer border ${
-                    currentScenario === "anomaly"
-                      ? "bg-[#E05262]/20 border-[#E05262] text-[#E05262]"
-                      : "bg-[#020706] border-[#668F87]/30 text-[#71817B] hover:border-[#D3B34A]"
-                  }`}
-                >
-                  4. GENUINE ANOMALY
-                </button>
-              </div>
-
-              {/* Action Buttons for Human in the Loop Validation */}
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <button
-                  onClick={() => handleFeedbackClick("VALID_OPERATION")}
-                  disabled={isProcessingAction}
-                  className="flex-1 py-1 rounded bg-[#39C98A]/20 text-[#39C98A] border border-[#39C98A]/40 text-[8.5px] font-bold hover:bg-[#39C98A]/30 transition-colors cursor-pointer"
-                >
-                  {feedbackFeedback === "PATTERN LEARNED" ? "[✓] PATTERN LEARNED" : "VALID OPERATION (LEARN)"}
-                </button>
-                <button
-                  onClick={() => handleFeedbackClick("CONFIRMED_ANOMALY")}
-                  disabled={isProcessingAction}
-                  className="flex-1 py-1 rounded bg-[#E05262]/20 text-[#E05262] border border-[#E05262]/40 text-[8.5px] font-bold hover:bg-[#E05262]/30 transition-colors cursor-pointer"
-                >
-                  {feedbackFeedback === "ANOMALY CONFIRMED" ? "[✓] ANOMALY CONFIRMED" : "CONFIRMED ANOMALY"}
-                </button>
-              </div>
-
-              {/* Memory Bank Status */}
-              <div className="border-t border-[#668F87]/15 pt-1 mt-0.5 text-[8.5px] text-[#71817B]">
-                <div className="text-[#D3B34A] font-bold">ADAPTIVE EVENT MEMORY BANK:</div>
-                <div className="flex justify-between">
-                  <span>STORED PATTERNS:</span>
-                  <span className="text-[#39C98A] font-bold">{memoryBank?.count ?? 0} PATTERNS</span>
+            <div className="flex flex-col gap-2 text-[9.5px] text-slate-300 mt-0.5">
+              <div className="p-2 rounded bg-[#020706] border border-[#668F87]/20">
+                <div className="text-[#B8C0BA] font-semibold text-[9px] mb-1">CURRENT MEMORY STATE</div>
+                <div className="flex justify-between text-[8.5px]">
+                  <span className="text-[#71817B]">STORED PATTERNS</span>
+                  <span className="text-[#39C98A] font-bold">{memoryBank?.count ?? 0}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>MEMORY SIMILARITY:</span>
+                <div className="flex justify-between text-[8.5px]">
+                  <span className="text-[#71817B]">CURRENT ASSESSMENT</span>
                   <span className="text-[#D3B34A] font-bold">
-                    {currentAlert ? `${(currentAlert.similarity_score * 100).toFixed(1)}%` : "0.0%"}
+                    {currentAlert?.status?.replace(/_/g, " ") || "NO EVENT DATA"}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span>UNUSUALNESS SCORE:</span>
+                <div className="flex justify-between text-[8.5px]">
+                  <span className="text-[#71817B]">MEMORY SIMILARITY</span>
+                  <span className="text-[#F6D365] font-bold">
+                    {currentAlert ? `${(currentAlert.similarity_score * 100).toFixed(1)}%` : "--"}
+                  </span>
+                </div>
+                <div className="flex justify-between text-[8.5px]">
+                  <span className="text-[#71817B]">UNUSUALNESS</span>
                   <span className="text-[#F6D365] font-bold">
                     {currentAlert ? `${currentAlert.unusualness_score.toFixed(3)} / 3.000` : "--"}
                   </span>
                 </div>
-                <div className="text-[#B8C0BA] mt-0.5 truncate">
-                  {currentAlert?.explanation || "Operating within nominal bounds."}
+              </div>
+
+              <div className="p-2 rounded border border-[#D3B34A]/20 bg-[#D3B34A]/5">
+                <div className="text-[#D3B34A] font-bold text-[9px] mb-1">OPERATOR WORKFLOW</div>
+                <div className="text-[8.5px] text-[#B8C0BA] leading-relaxed">
+                  ASTRA detects unusual telemetry, adds command context, checks for similar operator-validated events,
+                  and presents the evidence for human review.
                 </div>
+              </div>
+
+              <div className="text-[8px] text-[#71817B] leading-snug">
+                Current spacecraft-health evidence is based on the ESA Mission-1 historical research archive until an authorized mission telemetry source is connected.
               </div>
             </div>
           </>
