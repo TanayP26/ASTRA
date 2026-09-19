@@ -19,9 +19,9 @@ jobs:
           node-version: "20"
           cache: npm
           cache-dependency-path: "FrontEnd 2.0/package-lock.json"
-      - name: Upgrade patched Next.js
+      - name: Upgrade supported patched Next.js
         working-directory: "FrontEnd 2.0"
-        run: npm install next@15.5.24 --save-exact
+        run: npm install next@16.3.5 --save-exact
       - name: Audit production dependencies
         working-directory: "FrontEnd 2.0"
         run: npm audit --omit=dev
@@ -37,5 +37,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add "FrontEnd 2.0/package.json" "FrontEnd 2.0/package-lock.json"
-          git commit -m "fix(frontend): upgrade Next.js to patched 15.5.24 [skip ci]"
+          git commit -m "fix(frontend): upgrade Next.js to patched 16.3.5 [skip ci]"
           git push origin HEAD:security-next-15-5-24
