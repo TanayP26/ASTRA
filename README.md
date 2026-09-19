@@ -119,7 +119,7 @@ Operator Decision
 FastAPI + HTTP/WebSocket endpoints
     |
     v
-HTML / CSS / JavaScript operator interface
+Next.js / React operator interface
 ```
 
 These sources are separate and not interchangeable. Orbital elements support propagated orbital awareness, RF observations describe public reception activity and available payloads, and ESA telemetry supports historical research. None establishes access to an authorized operational mission feed. ---
@@ -260,7 +260,7 @@ Local datasets, caches, checkpoints, and generated experiment artifacts are Git-
 - Python 3.11
 - Repository dependencies
 - Network access for live CelesTrak/SatNOGS providers
-- Separately prepared research data for research/demo workflows
+- Separately prepared research data only when reproducing the ESA research experiments
 
 ### Install
 
@@ -297,7 +297,40 @@ uv run pytest
 uv run ruff check .
 ```
 
-Historical research experiments require separately prepared local ESA data. The judge/demo workflow itself is reproducible from the version-controlled `configs/demo_scenarios.json` scenario definitions. ---
+Historical research experiments require separately prepared local ESA data. The judge/demo workflow itself is reproducible from the version-controlled `configs/demo_scenarios.json` scenario definitions.
+
+### Railway Deployment
+
+Deploy the repository as two Railway services from the same GitHub repository:
+
+1. **ASTRA Backend**
+   - Root directory: repository root
+   - Uses the root `Dockerfile` and `railway.toml`
+   - Health check: `/health`
+
+2. **ASTRA Frontend**
+   - Root directory: `FrontEnd 2.0`
+   - Uses `FrontEnd 2.0/Dockerfile` and `FrontEnd 2.0/railway.toml`
+
+Frontend variables:
+
+```text
+ASTRA_BACKEND_URL=https://<backend-public-domain>
+NEXT_PUBLIC_WS_URL=wss://<backend-public-domain>
+```
+
+Keep `NEXT_PUBLIC_API_BASE_URL` unset in production so browser API calls stay same-origin and Next.js proxies `/api/*` to the backend.
+
+Backend variables:
+
+```text
+ASTRA_FRONTEND_URL=https://<frontend-public-domain>
+ASTRA_CORS_ORIGINS=https://<frontend-public-domain>
+```
+
+`NEXT_PUBLIC_WS_URL` is compiled into the frontend bundle, so redeploy the frontend after setting or changing it. The backend root redirects to the official frontend when `ASTRA_FRONTEND_URL` is configured.
+
+---
 
 ## Important Data Requirements
 
