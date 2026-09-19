@@ -455,7 +455,7 @@ export function RightBriefingPanel({
           <div className="flex items-center justify-between pr-1">
             <span className="text-[#668F87] font-medium">AZIMUTH:</span>
             <span className="text-[#B8C0BA] font-mono font-medium">
-              {groundContact?.azimuth_deg ? `${groundContact.azimuth_deg.toFixed(1)}°` : "--°"}
+              {groundContact?.azimuth_deg != null ? `${groundContact.azimuth_deg.toFixed(1)}°` : "--°"}
             </span>
           </div>
           <div className="flex items-center justify-between pl-1">
@@ -465,19 +465,19 @@ export function RightBriefingPanel({
                 groundContact && groundContact.elevation_deg >= 0 ? "text-[#39C98A]" : "text-[#D3B34A]"
               }`}
             >
-              {groundContact?.elevation_deg ? `${groundContact.elevation_deg.toFixed(1)}°` : "--°"}
+              {groundContact?.elevation_deg != null ? `${groundContact.elevation_deg.toFixed(1)}°` : "--°"}
             </span>
           </div>
           <div className="flex items-center justify-between pr-1">
             <span className="text-[#668F87] font-medium">RANGE:</span>
             <span className="text-[#D3B34A] font-mono font-medium">
-              {groundContact?.range_km ? `${groundContact.range_km.toFixed(1)} km` : "-- km"}
+              {groundContact?.range_km != null ? `${groundContact.range_km.toFixed(1)} km` : "-- km"}
             </span>
           </div>
           <div className="flex items-center justify-between pl-1">
             <span className="text-[#668F87] font-medium">MAX ELEVATION:</span>
             <span className="text-[#D3B34A] font-mono font-medium">
-              {groundContact?.max_elevation_deg ? `${groundContact.max_elevation_deg.toFixed(1)}°` : "--°"}
+              {groundContact?.max_elevation_deg != null ? `${groundContact.max_elevation_deg.toFixed(1)}°` : "--°"}
             </span>
           </div>
         </div>
@@ -494,7 +494,7 @@ export function RightBriefingPanel({
           <div>
             <span className="text-[#668F87]">PASS DURATION:</span>{" "}
             <span className="text-[#39C98A] font-mono font-medium">
-              {groundContact?.pass_duration_minutes ? `${groundContact.pass_duration_minutes.toFixed(1)} min` : "-- min"}
+              {groundContact?.pass_duration_minutes != null ? `${groundContact.pass_duration_minutes.toFixed(1)} min` : "-- min"}
             </span>
           </div>
           <div>
