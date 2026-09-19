@@ -3,7 +3,7 @@
  * Connects Frontend 2.0 to FastAPI backend services.
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "").replace(/\/+$/, "");
 
 export interface PropagatedSatelliteState {
   norad_id: number;
@@ -175,19 +175,28 @@ export interface StatisticsResponse {
 class AstraApiClient {
   private async fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
     const targetUrl = url.startsWith("http") ? url : `${API_BASE_URL}${url}`;
-    const res = await fetch(targetUrl, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        ...options?.headers,
-      },
-      ...options,
-    });
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
 
-    if (!res.ok) {
-      throw new Error(`API Error ${res.status}: ${res.statusText}`);
+    try {
+      const res = await fetch(targetUrl, {
+        cache: "no-store",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          ...options?.headers,
+        },
+        ...options,
+        signal: options?.signal ?? controller.signal,
+      });
+
+      if (!res.ok) {
+        throw new Error(`API Error ${res.status}: ${res.statusText}`);
+      }
+      return await res.json();
+    } finally {
+      clearTimeout(timeout);
     }
-    return await res.json();
   }
 
   // 1. Global SGP4 Orbital States
