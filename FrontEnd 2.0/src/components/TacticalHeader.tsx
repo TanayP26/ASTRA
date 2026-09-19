@@ -10,7 +10,6 @@ interface TacticalHeaderProps {
 }
 
 const NAV_ITEMS = [
-  { id: "overview", label: "OVERVIEW" },
   { id: "global", label: "ORBIT" },
   { id: "operations", label: "OPERATIONS" },
   { id: "research", label: "RESEARCH" },
