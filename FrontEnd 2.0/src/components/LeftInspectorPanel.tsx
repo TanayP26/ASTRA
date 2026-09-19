@@ -100,7 +100,7 @@ export function LeftInspectorPanel({
           <div className="text-sm font-bold text-[#F6D365] tracking-wide flex items-center justify-between">
             <span className="truncate pr-2">{objectDetail?.name || `NORAD ${selectedNoradId}`}</span>
             <span className="text-[10px] text-[#39C98A] shrink-0 font-medium">
-              {objectDetail?.orbit_regime || "LEO"} {prop?.altitude_km ? `${prop.altitude_km.toFixed(0)} km` : ""}
+              {objectDetail?.orbit_regime || "LEO"} {prop?.altitude_km != null ? `${prop.altitude_km.toFixed(0)} km` : ""}
             </span>
           </div>
 
@@ -138,13 +138,13 @@ export function LeftInspectorPanel({
             <div className="flex justify-between">
               <span className="text-[#71817B]">ALTITUDE:</span>
               <span className="text-[#39C98A] font-semibold">
-                {prop?.altitude_km ? `${prop.altitude_km.toFixed(1)} km` : "--"}
+                {prop?.altitude_km != null ? `${prop.altitude_km.toFixed(1)} km` : "--"}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-[#71817B]">VELOCITY:</span>
               <span className="text-[#D3B34A] font-semibold">
-                {prop?.velocity_kms ? `${prop.velocity_kms.toFixed(3)} km/s` : "--"}
+                {prop?.velocity_kms != null ? `${prop.velocity_kms.toFixed(3)} km/s` : "--"}
               </span>
             </div>
           </div>
@@ -159,14 +159,14 @@ export function LeftInspectorPanel({
             &gt; SOURCE ORBITAL ELEMENTS (CelesTrak GP/OMM)
           </div>
           <div className="grid grid-cols-2 gap-x-2 text-[#71817B] text-[9px]">
-            <div>INCLINATION: <span className="text-[#B8C0BA]">{src?.inclination_deg ? `${src.inclination_deg.toFixed(4)}°` : "--"}</span></div>
-            <div>ECCENTRICITY: <span className="text-[#B8C0BA]">{src?.eccentricity ? src.eccentricity.toFixed(6) : "--"}</span></div>
-            <div>MEAN MOTION: <span className="text-[#B8C0BA]">{src?.mean_motion ? `${src.mean_motion.toFixed(4)} rev/d` : "--"}</span></div>
-            <div>SEMI-MAJOR AXIS: <span className="text-[#B8C0BA]">{prop?.semi_major_axis_km ? `${prop.semi_major_axis_km.toFixed(1)} km` : "--"}</span></div>
-            <div>APOGEE / PERIGEE: <span className="text-[#B8C0BA]">{prop?.apogee_km && prop?.perigee_km ? `${prop.apogee_km.toFixed(0)} / ${prop.perigee_km.toFixed(0)} km` : "--"}</span></div>
-            <div>ORBIT PERIOD: <span className="text-[#B8C0BA]">{prop?.period_minutes ? `${prop.period_minutes.toFixed(1)} min` : "--"}</span></div>
+            <div>INCLINATION: <span className="text-[#B8C0BA]">{src?.inclination_deg != null ? `${src.inclination_deg.toFixed(4)}°` : "--"}</span></div>
+            <div>ECCENTRICITY: <span className="text-[#B8C0BA]">{src?.eccentricity != null ? src.eccentricity.toFixed(6) : "--"}</span></div>
+            <div>MEAN MOTION: <span className="text-[#B8C0BA]">{src?.mean_motion != null ? `${src.mean_motion.toFixed(4)} rev/d` : "--"}</span></div>
+            <div>SEMI-MAJOR AXIS: <span className="text-[#B8C0BA]">{prop?.semi_major_axis_km != null ? `${prop.semi_major_axis_km.toFixed(1)} km` : "--"}</span></div>
+            <div>APOGEE / PERIGEE: <span className="text-[#B8C0BA]">{prop?.apogee_km != null && prop?.perigee_km != null ? `${prop.apogee_km.toFixed(0)} / ${prop.perigee_km.toFixed(0)} km` : "--"}</span></div>
+            <div>ORBIT PERIOD: <span className="text-[#B8C0BA]">{prop?.period_minutes != null ? `${prop.period_minutes.toFixed(1)} min` : "--"}</span></div>
             <div>ELEMENT EPOCH: <span className="text-[#B8C0BA] truncate block">{src?.element_epoch ? src.element_epoch.substring(0, 19) : "--"}</span></div>
-            <div>ELEMENT AGE: <span className="text-[#D3B34A]">{prop?.element_age_hours ? `${prop.element_age_hours.toFixed(1)} hrs` : "--"}</span></div>
+            <div>ELEMENT AGE: <span className="text-[#D3B34A]">{prop?.element_age_hours != null ? `${prop.element_age_hours.toFixed(1)} hrs` : "--"}</span></div>
           </div>
         </div>
 
