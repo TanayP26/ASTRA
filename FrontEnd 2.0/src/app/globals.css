@@ -306,3 +306,162 @@ body {
 .rounded-sm { border-radius: 0.125rem !important; }
 .cursor-pointer { cursor: pointer !important; }
 .select-none { user-select: none !important; }
+
+
+/* Deployment-responsive layout: optimized for 1366px+ judging laptops, graceful below that. */
+@media (max-width: 1500px) {
+  aside.panel-backdrop-left {
+    width: 325px !important;
+  }
+
+  aside.panel-backdrop-right {
+    width: 345px !important;
+  }
+
+  .brand {
+    margin-right: 28px !important;
+  }
+
+  .nav {
+    gap: 5px !important;
+  }
+
+  .nav-item {
+    padding: 4px 9px !important;
+    font-size: 9.5px !important;
+  }
+
+  .astra-header-status {
+    gap: 8px !important;
+  }
+}
+
+@media (max-width: 1366px) {
+  aside.panel-backdrop-left {
+    width: 310px !important;
+  }
+
+  aside.panel-backdrop-right {
+    width: 325px !important;
+  }
+
+  .brand {
+    margin-right: 18px !important;
+  }
+
+  .astra-operator-role {
+    display: none !important;
+  }
+
+  .astra-status-right {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1180px) {
+  .astra-utc {
+    display: none !important;
+  }
+
+  .astra-header-status {
+    gap: 5px !important;
+  }
+
+  aside.panel-backdrop-left {
+    width: 290px !important;
+  }
+
+  aside.panel-backdrop-right {
+    width: 305px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  body {
+    overflow: auto !important;
+  }
+
+  .astra-shell {
+    width: 100% !important;
+    min-height: 100vh !important;
+    height: auto !important;
+    overflow: auto !important;
+  }
+
+  .astra-header {
+    height: auto !important;
+    min-height: 52px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .astra-header-left {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .brand {
+    margin-right: 12px !important;
+  }
+
+  .nav {
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .astra-header-status {
+    display: none !important;
+  }
+
+  .astra-main {
+    flex-direction: column !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  aside.panel-backdrop-left,
+  aside.panel-backdrop-right {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    background: rgba(0, 8, 8, 0.84) !important;
+  }
+
+  .astra-globe {
+    min-height: 62vh !important;
+    height: 62vh !important;
+    flex: none !important;
+  }
+
+  .astra-statusbar {
+    height: auto !important;
+    min-height: 36px !important;
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+  }
+
+  .astra-status-left {
+    flex-wrap: wrap !important;
+    row-gap: 4px !important;
+  }
+
+  .astra-status-right {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
