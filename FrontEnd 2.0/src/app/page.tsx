@@ -291,7 +291,7 @@ export default function Home() {
 
   return (
     <div 
-      className="astra-shell w-screen h-screen text-[#e2e8f0] flex flex-col overflow-hidden font-mono select-none app-background"
+      className="astra-shell w-screen h-screen text-[#e2e8f0] flex flex-col overflow-hidden select-none app-background"
       style={{
         backgroundImage: "url('/bg-nebula.jpg')",
         backgroundSize: "cover",
