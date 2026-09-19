@@ -51,7 +51,7 @@ export function TacticalHeader({
         }}
       />
 
-      {/* Left: Brand Logo + Deliberate Breathing Space (80px) + Boxed Navigation */}
+      {/* Brand and primary navigation */}
       <div className="astra-header-left flex items-center relative z-10">
         {/* Brand Emblem */}
         <div className="brand flex items-center gap-2 text-[#D3B34A] font-semibold text-sm tracking-wider" style={{ marginRight: "80px" }}>
@@ -59,7 +59,7 @@ export function TacticalHeader({
           <span className="font-semibold tracking-widest text-[#D3B34A]">ASTRA</span>
         </div>
 
-        {/* Horizontal Navigation: Mission-control rectangular boxes */}
+        {/* Primary workspace navigation */}
         <nav className="nav flex items-center" style={{ display: "flex", gap: "8px" }}>
           {NAV_ITEMS.map((item) => {
             const isActive = activeNav === item.id;
@@ -76,7 +76,7 @@ export function TacticalHeader({
         </nav>
       </div>
 
-      {/* Right: Telemetry ISO UTC_NOW, Threat Badge, Operator Role */}
+      {/* Time, event status and console identity */}
       <div className="astra-header-status flex items-center gap-4 text-[11px] text-[#71817B] tracking-normal relative z-10">
         <div 
           className="astra-utc flex items-center gap-2 px-2.5 py-1 rounded select-none"
@@ -111,10 +111,10 @@ export function TacticalHeader({
               : "text-[#39C98A] bg-[#39C98A]/10 border-[#39C98A]/30"
           }`}
         >
-          {isThreatActive ? `${threatCount} ACTIVE THREAT` : "0 ACTIVE THREATS"}
+          {isThreatActive ? `${threatCount} EVENT${threatCount === 1 ? "" : "S"} REQUIRING ATTENTION` : "SYSTEM NOMINAL"}
         </span>
         <span className="text-[#668F87]/40">•</span>
-        <span className="astra-operator-role text-[#71817B] text-[10px] font-medium tracking-wide">FLIGHT CONTROLLER (OPS)</span>
+        <span className="astra-operator-role text-[#71817B] text-[10px] font-medium tracking-wide">OPERATIONS CONSOLE</span>
       </div>
     </header>
   );
