@@ -301,34 +301,22 @@ Historical research experiments require separately prepared local ESA data. The 
 
 ### Railway Deployment
 
-Deploy the repository as two Railway services from the same GitHub repository:
+The recommended SIH deployment is **one Railway service** from the repository root.
 
-1. **ASTRA Backend**
-   - Root directory: repository root
-   - Uses the root `Dockerfile` and `railway.toml`
-   - Health check: `/health`
+The root `Dockerfile` builds FrontEnd 2.0 as a static Next.js export, copies that build into `app/frontend`, and then runs the FastAPI backend. This gives ASTRA one public origin for the UI, REST API, and WebSocket connection, avoiding cross-origin configuration and a second frontend cold start.
 
-2. **ASTRA Frontend**
-   - Root directory: `FrontEnd 2.0`
-   - Uses `FrontEnd 2.0/Dockerfile` and `FrontEnd 2.0/railway.toml`
+Railway uses the root `railway.toml` and checks `/health`. No frontend/backend URL environment variables are required for the single-service deployment.
 
-Frontend variables:
+To reproduce the production image locally:
 
-```text
-ASTRA_BACKEND_URL=https://<backend-public-domain>
-NEXT_PUBLIC_WS_URL=wss://<backend-public-domain>
+```bash
+docker build -t astra .
+docker run --rm -p 8050:8050 -e PORT=8050 astra
 ```
 
-Keep `NEXT_PUBLIC_API_BASE_URL` unset in production so browser API calls stay same-origin and Next.js proxies `/api/*` to the backend.
+Open `http://127.0.0.1:8050`. In the production container this serves FrontEnd 2.0, while a normal local Uvicorn run still serves the legacy static shell unless the frontend has been built into `app/frontend`.
 
-Backend variables:
-
-```text
-ASTRA_FRONTEND_URL=https://<frontend-public-domain>
-ASTRA_CORS_ORIGINS=https://<frontend-public-domain>
-```
-
-`NEXT_PUBLIC_WS_URL` is compiled into the frontend bundle, so redeploy the frontend after setting or changing it. The backend root redirects to the official frontend when `ASTRA_FRONTEND_URL` is configured.
+A separate Next.js service remains possible using `FrontEnd 2.0/Dockerfile`; in that topology set `ASTRA_BACKEND_URL` and `NEXT_PUBLIC_WS_URL` on the frontend and configure `ASTRA_FRONTEND_URL` / `ASTRA_CORS_ORIGINS` on the backend.
 
 ---
 
