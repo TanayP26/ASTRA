@@ -74,10 +74,17 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+cors_env = os.getenv("ASTRA_CORS_ORIGINS", "*").strip()
+cors_origins = (
+    ["*"]
+    if cors_env == "*"
+    else [origin.strip().rstrip("/") for origin in cors_env.split(",") if origin.strip()]
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=cors_origins,
+    allow_credentials=cors_origins != ["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
