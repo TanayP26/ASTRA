@@ -16,16 +16,28 @@ import {
   StatisticsResponse,
 } from "@/services/astraApi";
 
+function toWsUrl(url: string): string {
+  return url.trim().replace(/\/+$/, "").replace(/^https:/, "wss:").replace(/^http:/, "ws:");
+}
+
 function getWsBase(): string {
-  if (process.env.NEXT_PUBLIC_WS_URL) {
-    return process.env.NEXT_PUBLIC_WS_URL;
+  const explicitWs = process.env.NEXT_PUBLIC_WS_URL;
+  if (explicitWs) {
+    return toWsUrl(explicitWs);
   }
+
+  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL;
+  if (apiBase) {
+    return toWsUrl(apiBase);
+  }
+
   if (
     typeof window !== "undefined" &&
     (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
   ) {
     return "ws://127.0.0.1:8050";
   }
+
   const protocol = typeof window !== "undefined" && window.location.protocol === "https:" ? "wss:" : "ws:";
   return typeof window !== "undefined" ? `${protocol}//${window.location.host}` : "ws://127.0.0.1:8050";
 }
