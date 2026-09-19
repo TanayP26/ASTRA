@@ -210,39 +210,6 @@ export function LeftInspectorPanel({
       {/* ========================================================================= */}
       <div className="flex-1 subtle-section-bg p-3 rounded flex flex-col gap-2 min-h-[220px]">
         
-        {/* Product overview */}
-        {activeNav === "overview" && (
-          <>
-            <div className="text-[#D3B34A] font-semibold border-b border-[#668F87]/20 pb-1">
-              &gt; SYSTEM OVERVIEW
-            </div>
-            <div className="text-[9px] text-[#B8C0BA] leading-relaxed">
-              ASTRA helps an operator answer three questions: where is the spacecraft, is its behaviour unusual,
-              and have we already seen and validated something similar?
-            </div>
-            <div className="grid grid-cols-1 gap-1.5 mt-1">
-              <div className="p-2 rounded bg-[#020706] border border-[#668F87]/25">
-                <div className="text-[#39C98A] font-bold text-[9px]">1. ORBITAL AWARENESS</div>
-                <div className="text-[8.5px] text-[#71817B]">Where is it? CelesTrak elements are propagated locally with SGP4.</div>
-              </div>
-              <div className="p-2 rounded bg-[#020706] border border-[#668F87]/25">
-                <div className="text-[#D3B34A] font-bold text-[9px]">2. SPACECRAFT HEALTH</div>
-                <div className="text-[8.5px] text-[#71817B]">Is it unusual? A transparent 3-sigma detector flags large telemetry deviations.</div>
-              </div>
-              <div className="p-2 rounded bg-[#020706] border border-[#668F87]/25">
-                <div className="text-[#F6D365] font-bold text-[9px]">3. ADAPTIVE EVENT MEMORY</div>
-                <div className="text-[8.5px] text-[#71817B]">Have we seen this before? ASTRA compares the event with operator-validated operational patterns.</div>
-              </div>
-            </div>
-            <div className="mt-1 p-2 rounded border border-[#668F87]/25 bg-[#020706]">
-              <div className="text-[#B8C0BA] font-bold text-[9px] mb-1">OPERATOR-CONTROLLED INTELLIGENCE</div>
-              <div className="text-[8.5px] text-[#71817B] leading-relaxed">
-                Event Memory adds operational context to unusual telemetry. Final interpretation remains with the mission operator.
-              </div>
-            </div>
-          </>
-        )}
-
         {/* TAB 1: GLOBAL ORBITAL PICTURE & DISCOVERY */}
         {activeNav === "global" && (
           <>
