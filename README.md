@@ -34,7 +34,7 @@ It addresses a spacecraft operations problem: **rare but legitimate behavior can
 The repository includes:
 
 - FastAPI backend
-- Next.js / React nationals operator interface under `FrontEnd 2.0/` (legacy static interface remains under `app/frontend/`)
+- Next.js / React operator interface under `FrontEnd 2.0/` (legacy static interface remains under `app/frontend/`)
 - CelesTrak catalog ingestion with local SGP4 propagation
 - SatNOGS observation integration
 - Anomaly-detection baselines
@@ -77,7 +77,7 @@ Unmatched events remain unusual events requiring review, and the operator stays 
 | **RF OBSERVATIONS** | SatNOGS Community Ground Network integration in the object inspector: recent RF observations, raw frames, decoded telemetry only when genuinely available, explicit availability states, caching, and source-failure handling. |
 | **FLEET** | Reserved for authorized mission spacecraft; intentionally empty when no authorized feed is connected. |
 | **SPACECRAFT** | Workspace for authorized mission telemetry. Currently shows the disconnected state and does not fabricate spacecraft telemetry. |
-| **ALERTS** | Unusual-event and known-operational-pattern status in the historical research/demo workflow. |
+| **ALERTS** | Unusual-event and known-operational-pattern status from the historical research workflow. |
 | **OPERATIONS** | Adaptive Event Memory, event evidence, and operator validation using prepared historical research scenarios. |
 | **DATA SOURCES** | Provider health, source attribution, and cache/freshness state. |
 | **RESEARCH** | ESA Mission-1 exploratory evaluation on selected telemetry channels. |
@@ -270,7 +270,7 @@ cd ASTRA
 uv sync --extra dev
 ```
 
-### Run the Nationals UI
+### Run the Operator Interface
 
 Start the FastAPI backend:
 
@@ -297,7 +297,7 @@ uv run pytest
 uv run ruff check .
 ```
 
-Historical research experiments require separately prepared local ESA data. The judge/demo workflow itself is reproducible from the version-controlled `configs/demo_scenarios.json` scenario definitions.
+Historical research experiments require separately prepared local ESA data. The prepared historical event workflow is reproducible from the version-controlled `configs/demo_scenarios.json` scenario definitions.
 
 ### Railway Deployment
 
