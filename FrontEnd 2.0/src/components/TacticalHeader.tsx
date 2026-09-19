@@ -30,7 +30,7 @@ export function TacticalHeader({
       setUtcNowStr(new Date().toISOString());
     };
     updateTime();
-    const interval = setInterval(updateTime, 100);
+    const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -40,7 +40,7 @@ export function TacticalHeader({
     threatStatus === "CRITICAL_COMPONENT_ANOMALY";
 
   return (
-    <header className="h-12 w-full bg-transparent px-4 flex items-center justify-between text-xs z-50 shrink-0 select-none relative">
+    <header className="astra-header h-12 w-full bg-transparent px-4 flex items-center justify-between text-xs z-50 shrink-0 select-none relative">
       {/* Soft Black Vignette Gradient Overlay */}
       <div 
         className="absolute top-0 left-0 right-0 pointer-events-none"
@@ -52,7 +52,7 @@ export function TacticalHeader({
       />
 
       {/* Left: Brand Logo + Deliberate Breathing Space (80px) + Boxed Navigation */}
-      <div className="flex items-center relative z-10">
+      <div className="astra-header-left flex items-center relative z-10">
         {/* Brand Emblem */}
         <div className="brand flex items-center gap-2 text-[#D3B34A] font-semibold text-sm tracking-wider" style={{ marginRight: "80px" }}>
           <span className="text-xs text-[#D3B34A]">◇</span>
@@ -77,9 +77,9 @@ export function TacticalHeader({
       </div>
 
       {/* Right: Telemetry ISO UTC_NOW, Threat Badge, Operator Role */}
-      <div className="flex items-center gap-4 text-[11px] text-[#71817B] tracking-normal relative z-10">
+      <div className="astra-header-status flex items-center gap-4 text-[11px] text-[#71817B] tracking-normal relative z-10">
         <div 
-          className="flex items-center gap-2 px-2.5 py-1 rounded select-none"
+          className="astra-utc flex items-center gap-2 px-2.5 py-1 rounded select-none"
           style={{
             backgroundColor: "rgba(3, 16, 13, 0.88)",
             border: "1px solid rgba(102, 143, 135, 0.45)",
@@ -114,7 +114,7 @@ export function TacticalHeader({
           {isThreatActive ? `${threatCount} ACTIVE THREAT` : "0 ACTIVE THREATS"}
         </span>
         <span className="text-[#668F87]/40">•</span>
-        <span className="text-[#71817B] text-[10px] font-medium tracking-wide">FLIGHT CONTROLLER (OPS)</span>
+        <span className="astra-operator-role text-[#71817B] text-[10px] font-medium tracking-wide">FLIGHT CONTROLLER (OPS)</span>
       </div>
     </header>
   );
