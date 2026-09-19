@@ -11,6 +11,7 @@ from typing import Any, Literal
 
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -130,6 +131,15 @@ class HealthResponse(BaseModel):
 @app.get("/health", response_model=HealthResponse)
 def get_health():
     return {"status": "ok", "service": "ASTRA Mission Control Backend"}
+
+
+frontend_public_url = os.getenv("ASTRA_FRONTEND_URL", "").strip().rstrip("/")
+if frontend_public_url:
+
+    @app.get("/", include_in_schema=False)
+    def redirect_to_frontend():
+        """Send visitors on the backend domain to the official deployed ASTRA interface."""
+        return RedirectResponse(frontend_public_url, status_code=307)
 
 
 @app.get("/api/mission/summary")
