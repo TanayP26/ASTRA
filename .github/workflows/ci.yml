@@ -54,3 +54,12 @@ jobs:
         run: npm ci
       - name: Build FrontEnd 2.0
         run: npm run build
+
+  deployment-containers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend deployment image
+        run: docker build -t astra-backend .
+      - name: Build frontend deployment image
+        run: docker build -t astra-frontend "FrontEnd 2.0"
